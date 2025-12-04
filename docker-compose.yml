@@ -1,0 +1,60 @@
+services:
+  backend-service:
+    build:
+      context: ./glyphz-backend
+      dockerfile: Dockerfile
+    container_name: glyphz-backend
+    ports:
+      - "8080:8080"
+    environment:
+      # 在这里配置后端连接数据库所需的环境变量
+      # Spring Boot会自动读取这些变量
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/glyphz
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=114514
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - glyphz-network
+
+  frontend-service:
+    build:
+      context: ./glyphz
+      dockerfile: Dockerfile
+    container_name: glyphz-frontend
+    ports:
+      - "8888:80"
+    depends_on:
+      - backend-service
+    networks:
+      - glyphz-network
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: glyphz-mysql-db
+    restart: always
+    environment:
+      # 设置MySQL的root用户密码和默认数据库
+      MYSQL_ROOT_PASSWORD: 114514
+      MYSQL_DATABASE: glyphz
+    # volumes:
+    #   - mysql-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - glyphz-network
+    healthcheck:
+      # mysqladmin ping 是一个用来检查 MySQL 服务是否响应的命令
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s       # 每10秒检查一次
+      timeout: 5s         # 每次检查的超时时间
+      retries: 5          # 连续失败5次后，标记容器为不健康
+      start_period: 30s   # 容器启动后，给予30秒的宽限期再开始健康检查
+
+networks:
+  glyphz-network:
+    driver: bridge
+
+# volumes:
+#   mysql-data:
