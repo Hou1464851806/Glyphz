@@ -44,3 +44,5 @@ jobs:
         platforms: linux/amd64
         push: true
         tags: nonbeing923/glyphz-${{ matrix.service }}:latest
+        cache-from: type=registry,ref=nonbeing923/glyphz-${{ matrix.service }}:buildcache
+        cache-to: type=registry,ref=nonbeing923/glyphz-${{ matrix.service }}:buildcache,mode=max
