@@ -31,4 +31,4 @@ jobs:
         context: ./glyphz
         file: ./Dockerfile
         platforms: linux/amd64
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/githubaction/${{ env.GITHUB_REPOSITORY_NAME_PART }}/frontend:latest
+        tags: nonbeing923/githubaction/glyphz/frontend:latest
