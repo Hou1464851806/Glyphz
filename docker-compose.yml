@@ -1,8 +1,11 @@
 services:
+  # docker compose up 会直接构建本地镜像，而不是通过pull获取（在有build tag的情况下）
+  # 使用 docker compose pull 强制从远程拉取镜像
   backend-service:
     build:
       context: ./glyphz-backend
       dockerfile: Dockerfile
+    image: nonbeing923/glyphz-backend:latest
     container_name: glyphz-backend
     ports:
       - "8080:8080"
@@ -22,6 +25,7 @@ services:
     build:
       context: ./glyphz
       dockerfile: Dockerfile
+    image: nonbeing923/glyphz-frontend:latest
     container_name: glyphz-frontend
     ports:
       - "8888:80"
