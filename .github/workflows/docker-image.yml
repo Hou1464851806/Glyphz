@@ -29,6 +29,6 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: ./glyphz
-        file: ./Dockerfile
+        file: ./glyphz/Dockerfile
         platforms: linux/amd64
         tags: nonbeing923/githubaction/glyphz/frontend:latest
