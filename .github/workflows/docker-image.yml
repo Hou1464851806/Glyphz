@@ -32,4 +32,4 @@ jobs:
         file: ./glyphz/Dockerfile
         platforms: linux/amd64
         push: true
-        tags: nonbeing923/githubaction/glyphz/frontend:latest
+        tags: nonbeing923/glyphz-frontend:latest
